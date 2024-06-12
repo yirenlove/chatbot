@@ -5,6 +5,7 @@ import { onMounted, ref, render } from 'vue';
 import { postInfo } from '@/api';
 import { useChatStore } from '@/stores';
 import router from '@/router';
+import index from '@/components/report/index.vue'
 const getDiv = ref()
 defineProps({
     tarUrl: {
@@ -62,7 +63,6 @@ const handleUpload = (options) => {
 const handleMousedown = (e) => {
     x1 = e.offsetX
     y1 = e.offsetY
-
 }
 //简单的画框
 const handleMouseup = (e) => {
@@ -93,7 +93,12 @@ const handleData = (e) => {
     })
 }
 
+//医学报告填写
+const reportShow = ref(false)
+const close = ()=>{
+    reportShow.value = false
 
+}
 
 </script>
 
@@ -104,9 +109,11 @@ const handleData = (e) => {
         <div class="mb-2 font-bold text-center " v-show="isShow">
             <h1 class="text-center border-2 border-inherit border-solid rounded" style="color:white">请上传要分析的图片</h1>
         </div>
+        <div><el-button type="success" @click="reportShow = true"  class="mb-2 w-full">生成报告</el-button></div>
+        <div><el-button type="success" @click="handleData" class="mb-2 w-full ">历史数据管理</el-button></div>
         <div><el-button type="success" @click="handleSubmit" class="mb-2 w-full">点击上传</el-button></div>
 
-        <el-button type="success" @click="handleData" class="mb-2 w-full ">历史数据管理</el-button>
+
         <div ref="getDiv"
             class='imageConent min-w-[333px] max-w-[333px] border-inherit border-2 border-solid rounded-md box-border max-h-[450px]'>
             <el-upload :headers="{ 'Content-Type': 'multipart/form-data' }" ref="uploadRef" :action="tarUrl"
@@ -119,10 +126,11 @@ const handleData = (e) => {
             <!-- <ul class="inline-flex == flex-direction: column; flex-wrap p-1"> -->
             <ul class="inline-flex flex-col flex-wrap p-1">
                 <li v-for="(item) in chatStore.imgUrls" :key="item" class="flex-[0_0_47%] mb-2 mr-2 ">
-                    <ElImage :src="item" alt="" :preview-src-list="chatStore.imgUrls"/>
+                    <ElImage :src="item" alt="" :preview-src-list="chatStore.imgUrls" />
                 </li>
             </ul>
         </div>
+        <!-- 给图片画出分割区域 -->
         <el-dialog v-model="dialogVisible" :append-to-body="true" width="50%">
             <div style="border: 2px solid #3f3f3f3f;">
                 <div ref="imgWraper" class="relative">
@@ -131,6 +139,8 @@ const handleData = (e) => {
                 </div>
             </div>
         </el-dialog>
+        <!-- 生成医学报告 -->
+        <index :isShow="reportShow" @close="close"></index>
     </div>
 
 </template>

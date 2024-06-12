@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user.js'
 
 
-const whiteList = ['/login', '/register','/test']
+const whiteList = ['/login', '/register','/test','/index','/history','/report']
 
 
 router.beforeEach(async (to, from, next) => {

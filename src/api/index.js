@@ -17,3 +17,12 @@ export const postInfo = (datas) => {
     }
   )
 }
+
+export const generate_pdf = (formdata)=>{
+  return request.post('/generate_pdf',formdata,{
+    headers:{
+      "Content-Type":"multipart/form-data",
+    },
+    responseType:'blob',
+  })
+}

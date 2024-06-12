@@ -26,6 +26,11 @@ const router = createRouter({
       component: () => import('@/views/history.vue')
     },
     {
+      path:'/report',
+      name:'report',
+      component:()=> import('@/components/report/index.vue')
+    },
+    {
       path: '/',
       redirect: '/index'
     }
