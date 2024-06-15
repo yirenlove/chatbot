@@ -1,7 +1,6 @@
 <script setup>
 import report from '@/components/report/report.vue'
 import { ElDialog } from 'element-plus';
-import { toRef } from 'vue';
 
 const prop = defineProps({
     isShow:{
@@ -23,5 +22,4 @@ const clsoeCallback = () => {
         <header style="text-align: center">医学报告</header>
         <report></report>
     </ElDialog>
-    <!-- <report></report> -->
 </template>

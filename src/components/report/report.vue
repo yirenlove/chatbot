@@ -3,16 +3,22 @@ import { ref } from 'vue';
 import { generate_pdf } from '@/api';
 import moment from 'moment';
 
+
+
 //拿到form表单节点，手动转为formdata数据，并且提交  
 const formdom = ref()
-const handleSubmit = async (e) => {
+const name = ref('');
+const age = ref('');
+const gender = ref('');
+const contact = ref('');
+const userText = ref('');
+const handleSubmit = async (e) => { 
     let now = moment()
-    const formdata = new FormData(formdom.value)
-    formdata.set('report_date',now.format('YYYYMMDD'));
-    console.log(formdata.get('report_date'));
-    const blobdata = await generate_pdf(formdata)
-    blobdata.then(res => {
-        let blob = new Blob([res.data])
+    // const formdata = new FormData(formdom.value)
+    // formdata.set('report_date',now.format('YYYYMMDD'));
+    const blobdata = await generate_pdf(JSON.stringify({ name: name.value, age: age.value, gender: gender.value, contact: contact.value, report_date: now.format('YYYYMMDD'), text: userText.value }))
+
+        let blob = new Blob([blobdata.data])
         //非ie浏览器下载
         let download = document.createElement('a')
         download.href = URL.createObjectURL(blob)
@@ -21,7 +27,6 @@ const handleSubmit = async (e) => {
         URL.revokeObjectURL(download.href)
         //移除download 节点
         download.remove()
-    })
 
 }
 </script>
@@ -32,18 +37,18 @@ const handleSubmit = async (e) => {
             <div class="item flex justify-between">
                 <div>
                     <label for="name">姓名</label>
-                    <input type="text" name="name" id="name" placeholder="必填" required>
+                    <input v-model="name"type="text" name="name" id="name" placeholder="必填" required>
                 </div>
                 <div>
                     <label for="age">年龄</label>
-                    <input type="text" name="age" id="age" placeholder="必填" required>
+                    <input v-model="age"type="text" name="age" id="age" placeholder="必填" required>
                 </div>
 
             </div>
             <div class="item flex justify-between">
                 <div>
                     <label for="sex">性别</label>
-                    <input type="text" name="gender" id="sex" placeholder="必填" required>
+                    <input v-model="gender"type="text" name="gender" id="sex" placeholder="必填" required>
                 </div>
                 <div>
                     <label for="tele">电话</label>
@@ -52,7 +57,7 @@ const handleSubmit = async (e) => {
             </div>
             <div class="item">
                 <p><label for="diagnosis">诊断</label></p>
-                <textarea class="break-words w-full box-border" name="userText" id="diagnosis" rows="5"
+                <textarea v-model="userText" class="break-words w-full box-border" name="userText" id="diagnosis" rows="5"
                     draggable="false"></textarea>
             </div>
         </form>
