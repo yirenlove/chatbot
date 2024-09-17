@@ -1,0 +1,1 @@
+import{aP as e,G as t,O as c}from"./index-CHNotA-O.js";const o={},n={class:"text-center font-bold text-2xl",style:{color:"white",padding:"20px"}};function r(s,a){return t(),c("h2",n,"智慧医疗分割辅助诊断平台")}const l=e(o,[["render",r]]);export{l as default};
