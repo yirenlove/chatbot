@@ -1,0 +1,21 @@
+name: 构建和部署
+on: [push]
+permissions:
+  contents: write
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }} # 如果打算快速多次部署，推荐使用此并发参数。
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出源码 🛎️
+        uses: actions/checkout@v4
+
+      - name: 安装和构建 🔧 # 示例项目用npm构建并将结果输出到'build'文件夹。请替换为构建你的项目所需的命令，或者如果网站已经预构建，则删除此步骤。
+        run: |
+          npm i
+          npm run build
+
+      - name: 部署 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # 要部署的文件夹。
